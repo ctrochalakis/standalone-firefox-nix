@@ -1,0 +1,16 @@
+name: "Populate Cachix"
+on:
+  pull_request:
+  push:
+jobs:
+  cachix-build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2.4.0
+    - uses: cachix/install-nix-action@v16
+    - uses: cachix/cachix-action@v10
+      with:
+        name: yatiohi
+        authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+    - run: nix build
+    - run: nix flake check
