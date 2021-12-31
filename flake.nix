@@ -9,8 +9,8 @@
       let
         pkgs = import nixpkgs { inherit system; };
         standalone-firefox = pkgs.callPackage ./firefox.nix {
-          pkgs = pkgs;
-          nixpkgs = nixpkgs;
+          inherit pkgs;
+          nixpkgsSource = nixpkgs.outPath;
         };
       in {
         packages.standalone-firefox = standalone-firefox;
