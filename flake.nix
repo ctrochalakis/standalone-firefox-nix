@@ -15,5 +15,15 @@
       in {
         packages.standalone-firefox = standalone-firefox;
         defaultPackage = standalone-firefox;
-      });
+
+      }) // {
+        overlay = final: prev: let
+          localFirefox = import ./firefox.nix {
+            pkgs = prev;
+            nixpkgsSource = nixpkgs.outPath;
+          };
+        in {
+          standalone-firefox = localFirefox;
+        };
+      };
 }
