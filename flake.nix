@@ -10,7 +10,6 @@
         pkgs = import nixpkgs { inherit system; };
         standalone-firefox = pkgs.callPackage ./firefox.nix {
           inherit pkgs;
-          nixpkgsSource = nixpkgs.outPath;
         };
       in {
         packages.standalone-firefox = standalone-firefox;
@@ -20,7 +19,6 @@
         overlay = final: prev: let
           localFirefox = import ./firefox.nix {
             pkgs = prev;
-            nixpkgsSource = nixpkgs.outPath;
           };
         in {
           standalone-firefox = localFirefox;

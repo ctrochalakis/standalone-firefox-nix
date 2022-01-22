@@ -1,10 +1,9 @@
-{ pkgs, nixpkgsSource, locale ? "en-US", arch ? "linux-x86_64" }:
+{ pkgs, locale ? "en-US", arch ? "linux-x86_64" }:
 let
   inherit (pkgs) lib;
 
-  generated = import
-    ("${nixpkgsSource}/pkgs/applications/networking/browsers/firefox-bin/release_sources.nix");
-  inherit (generated) version sources;
+  releaseSources = import (./upstream/release_sources.nix) ;
+  inherit (releaseSources) version sources;
 
   sourceMatches = locale: source:
     source.locale == locale && source.arch == arch;
