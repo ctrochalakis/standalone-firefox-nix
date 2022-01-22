@@ -1,5 +1,5 @@
 {
-  version = "96.0.1";
+  version = "96.0.2";
   sources = [
     { url = "http://archive.mozilla.org/pub/firefox/releases/96.0.1/linux-x86_64/ach/firefox-96.0.1.tar.bz2";
       locale = "ach";

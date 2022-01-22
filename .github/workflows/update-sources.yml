@@ -1,0 +1,23 @@
+name: Update Firefox sources
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 8 * * *'
+
+jobs:
+  update-sources:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Fetch release sources from upstream NixOS
+        run: |
+          curl -s https://raw.githubusercontent.com/NixOS/nixpkgs/master/pkgs/applications/networking/browsers/firefox-bin/release_sources.nix -o upstream/release_sources.nix
+      - name: Commit upstream sources
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add -u upstream/release_sources.nix
+          git --no-pager diff --staged
+          git diff-index --quiet HEAD upstream/release_sources.nix || git commit -m "Update release sources"
+          git push
