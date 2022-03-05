@@ -15,5 +15,12 @@ jobs:
         with:
           extra_nix_config: |
             access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
-      - name: Update flake.lock
-        uses: DeterminateSystems/update-flake-lock@v6
+      - name: Update flake inputs
+        env:
+          GIT_AUTHOR_NAME: github-actions[bot]
+          GIT_AUTHOR_EMAIL: <github-actions[bot]@users.noreply.github.com>
+          GIT_COMMITTER_NAME: github-actions[bot]
+          GIT_COMMITTER_EMAIL: <github-actions[bot]@users.noreply.github.com>
+        run: nix flake update --commit-lock-file
+      - name: git push
+        run: git push
