@@ -5,23 +5,22 @@
   inputs.utils.url = "github:numtide/flake-utils";
 
   outputs = { self, nixpkgs, utils }:
-    utils.lib.eachDefaultSystem (system:
+    {
+      nixosModule = {
+        nixpkgs.overlays = [
+          (final: prev: {
+            standalone-firefox = self.packages."${final.stdenv.hostPlatform.system}".standalone-firefox;
+          })
+        ];
+      };
+    } // utils.lib.eachSystem [ "x86_64-linux" ] (system:
       let
         pkgs = import nixpkgs { inherit system; };
-        standalone-firefox = pkgs.callPackage ./firefox.nix {
+      in
+      {
+        packages.standalone-firefox = pkgs.callPackage ./firefox.nix {
           inherit pkgs;
+          arch = "linux-x86_64";
         };
-      in {
-        packages.standalone-firefox = standalone-firefox;
-        defaultPackage = standalone-firefox;
-
-      }) // {
-        overlay = final: prev: let
-          localFirefox = import ./firefox.nix {
-            pkgs = prev;
-          };
-        in {
-          standalone-firefox = localFirefox;
-        };
-      };
+      });
 }
