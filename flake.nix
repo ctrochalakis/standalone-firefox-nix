@@ -1,7 +1,7 @@
 {
   description = "Standalone firefox flake for non-nix systems";
 
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs/release-22.05";
+  inputs.nixpkgs.url = "github:NixOS/nixpkgs/release-23.05";
   inputs.utils.url = "github:numtide/flake-utils";
 
   outputs = { self, nixpkgs, utils }:
